@@ -1,6 +1,6 @@
 # BIG-IP tmp Folder Cleanup Playbook
 
-Use this playbook from BIG-IQ CM to clean up the tmp folders within BIG-IPs across your estate
+**Use this playbook from BIG-IQ CM to clean up the tmp folders within BIG-IPs across your estate**
 
 1. SSH to your BIG-IQ CM instance, which has Ansible pre-installed
 2. Navigate to the admin home directory
