@@ -18,6 +18,13 @@ Use this playbook from BIG-IQ CM to clean up the tmp folders within BIG-IPs acro
     - big-ip-tmp-folder-cleanup.yml
     - bigiphosts
 6. Update the 'username' and 'password' variables within 'bigiphosts'
+7. Update the 'f5' section of the 'bigiphosts' file to reflect the BIG-IP targeted in your estate. There are two pre-populated examples showing the convention used.
+
+    `<hostname> private_ip=<ip_address>`
+
+    e.g.
+
+    `west-adc-02b.f5demo.com private_ip=10.1.1.16`
 
 7. Run the Ansible playbook
 
