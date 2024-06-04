@@ -1,0 +1,18 @@
+---
+- name: Run clean_tmsh_tmp_dirs script against BIG-IPs
+  hosts: f5
+  gather_facts: no
+  vars:
+    provider:
+      password: "{{ ansible_pass }}"
+      server: "{{ private_ip }}"
+      user: "{{ ansible_user }}"
+      validate_certs: no
+      server_port: 443
+      timeout: 300
+  tasks:
+  - name: Run clean_tmsh_tmp_dirs script against a BIG-IP
+    bigip_command:
+      commands: tmsh run /util bash -c "/usr/local/bin/clean_tmsh_tmp_dirs --skip_prompt"
+      provider: "{{ provider }}"
+    delegate_to: localhost

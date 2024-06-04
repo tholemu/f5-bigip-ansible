@@ -1,0 +1,7 @@
+[all:vars]
+ansible_user=username
+ansible_pass=password
+
+[f5]
+west-adc-02a.f5demo.com private_ip=10.1.1.15
+west-adc-02b.f5demo.com private_ip=10.1.1.16
