@@ -11,7 +11,7 @@ Use this playbook from BIG-IQ CM to clean up the tmp folders within BIG-IPs acro
     `mkdir ansible_playbooks && cd $_`
 4. Create a folder named 'bigip-clean-tmp-folders', then enter the folder
 
-    `mkdir bigip-clean-tmp-folders && cd $_`
+    ```mkdir bigip-clean-tmp-folders && cd $_```
 5. Copy the following files into the newly-created directory
 
     - ansible.cfg
