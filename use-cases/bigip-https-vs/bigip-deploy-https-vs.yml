@@ -1,0 +1,53 @@
+---
+- name: Deploy BIG-IP HTTP Virtual Server
+  hosts: f5
+  gather_facts: no
+  vars:
+    provider:
+      password: "{{ ansible_pass }}"
+      server: "{{ private_ip }}"
+      user: "{{ ansible_user }}"
+      validate_certs: false
+      server_port: 443
+      timeout: 300
+  tasks:
+
+  - name: Deploy Nodes to BIG-IP
+    bigip_node:
+      provider: "{{ provider }}"
+      host: "{{ hostvars[item].ansible_host }}"
+      name: "{{ hostvars[item].inventory_hostname }}"
+    loop: "{{ groups['nodes'] }}"
+    delegate_to: localhost
+  
+  - name: Deploy Pool to BIG-IP
+    bigip_pool:
+      provider: "{{ provider }}"
+      name: "juiceshop_pool"
+      lb_method: "round-robin"
+      monitors: "/Common/http"
+      monitor_type: "and_list"
+    delegate_to: localhost
+
+  - name: Add Nodes to Pool
+    bigip_pool_member:
+      provider: "{{ provider }}" 
+      state: "present"
+      name: "{{ hostvars[item].inventory_hostname }}"
+      host: "{{ hostvars[item].ansible_host }}"
+      port: "3000"
+      pool: "juiceshop_pool"
+    loop: "{{ groups['nodes'] }}"
+    delegate_to: localhost
+
+  - name: Deploy Virtual Server to BIG-IP
+    bigip_virtual_server:
+      provider: "{{ provider }}" 
+      name: "juiceshop-vs"
+      destination: "{{ destination_ip }}"
+      port: "443"
+      enabled_vlans: "all"
+      all_profiles: ['http','clientssl','oneconnect']
+      pool: "juiceshop_pool"
+      snat: "Automap"
+    delegate_to: localhost
